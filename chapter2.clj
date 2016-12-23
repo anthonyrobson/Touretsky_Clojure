@@ -55,11 +55,9 @@
 
 (= true (unary-zero? [])) ; true
 
-(defn unary-greater-p [xs ys]
+(defn unary-greater? [xs ys]
   "Return true if xs is a longer list than ys."
   (> (count xs) (count ys)))
 
-(= true (unary-greater-p [:x :x :x] [:x :x])) ; true
-(= false (unary-greater-p [:x :x] [:x :x])) ; true
-
-
+(= true (unary-greater? [:x :x :x] [:x :x])) ; true
+(= false (unary-greater? [:x :x] [:x :x])) ; true

@@ -92,16 +92,16 @@
 (= :sum-of (how-compute 3 4 7)) ; true
 (= :beats-me (how-compute 3 4 5)) ; true
 
-(defn geq [x y]
+(defn geq? [x y]
   "Return true if x is greater than or equal to y; not using >=."
   (or (= x y)
       (> x y)))
 
-(true? (geq 10 9)) ; true
-(true? (geq 9 9)) ; true
-(false? (geq 9 10)) ; true
+(true? (geq? 10 9)) ; true
+(true? (geq? 9 9)) ; true
+(false? (geq? 9 10)) ; true
 
-(defn people [p1 p2]
+(defn people? [p1 p2]
   "Return true if p1 is either :boy or :girl and p2 is :child; or if p1 is
   either :man or :woman and p2 is :adult."
   (or (and (or (= p1 :boy)
@@ -111,9 +111,9 @@
                (= p1 :woman))
            (= p2 :adult))))
 
-(true? (people :boy :child)) ; true
-(true? (people :man :adult)) ; true
-(false? (people :boy :adult)) ; true
+(true? (people? :boy :child)) ; true
+(true? (people? :man :adult)) ; true
+(false? (people? :boy :adult)) ; true
 
 (defn rock-paper-scissors [p1 p2]
   "Plays the rock, paper, scissors game."
@@ -131,7 +131,7 @@
 (= :first-wins (rock-paper-scissors :rock :scissors)) ; true
 (= :second-wins (rock-paper-scissors :rock :paper)) ; true
 
-(defn boilingp [temp scale]
+(defn boiling? [temp scale]
   "Return true if temp >= 212 and scale is :fahrenheit, or if temp >= 100 and
   scale is :celsius."
   (or (and (>= temp 212)
@@ -139,7 +139,7 @@
       (and (>= temp 100)
            (= scale :celsius))))
 
-(true? (boilingp 213 :fahrenheit)) ; true
-(true? (boilingp 101 :celsius)) ; true
-(false? (boilingp 211 :fahrenheit)) ; true
-(false? (boilingp 99 :celsius)) ; true
+(true? (boiling? 213 :fahrenheit)) ; true
+(true? (boiling? 101 :celsius)) ; true
+(false? (boiling? 211 :fahrenheit)) ; true
+(false? (boiling? 99 :celsius)) ; true

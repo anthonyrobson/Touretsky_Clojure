@@ -33,7 +33,7 @@
   "Show how the `butlast` function works."
   (butlast xs))
 
-(defn palindromep [xs]
+(defn palindrome? [xs]
   "Return `true` if the collection `xs` is palindromic."
   (= xs (reverse xs)))
 
@@ -44,7 +44,7 @@
 
 ;;; Sets
 
-(defn contains-article-p [xs]
+(defn contains-article? [xs]
   "Return `true` if collection `xs` contains any ':a', ':an', or ':the'."
   (seq (clojure.set/intersection #{:a :an :the} (set xs))))
 
@@ -52,20 +52,20 @@
   "Take a collection `xs` and add the set of vowels #{:a :e :i :o :u} to it."
   (clojure.set/union #{:a :e :i :o :u} (set xs)))
 
-(defn my-subset-p [xs ys]
+(defn my-subset? [xs ys]
   "Return `true` if `xs` is a subset of `ys`."
   (empty? (clojure.set/difference (set xs) (set ys))))
 
-(defn set-equal [xs ys]
+(defn set-equal? [xs ys]
   "Return `true` if `xs` is 'set-equal' to `ys`."
-  (and (my-subset-p xs ys)
-       (my-subset-p ys xs)))
+  (and (my-subset? xs ys)
+       (my-subset? ys xs)))
 
-(defn proper-subset-p [xs ys]
+(defn proper-subset? [xs ys]
   "Return `true` if `xs` is a proper subset of `ys`, that is, if `xs` is a
   subset of `ys`, but is not 'set-equal' to it."
-  (and (my-subset-p xs ys)
-       (not (set-equal xs ys))))
+  (and (my-subset? xs ys)
+       (not (set-equal? xs ys))))
 
 ;;; Shape features
 
@@ -180,12 +180,12 @@
 (defn how-many-choices []
   (count (choices loc)))
 
-(defn upstairsp [room]
+(defn upstairs? [room]
   "Return `true` if `room` is upstairs in the house."
   (or (= room :library)
       (= room :upstairs-bedroom)))
 
-(defn on-stairs-p [room]
+(defn on-stairs? [room]
   "Return `true` if `room` is on a set of stairs."
   (or (= room :front-stairs)
       (= room :back-stairs)))
@@ -193,9 +193,9 @@
 (defn where []
   "Output where Robbie is in the house."
   (let [room-string (name loc)]
-    (cond (on-stairs-p loc) (str "Robbie is on the " room-string)
-          (upstairsp loc)   (str "Robbie is upstairs in the " room-string)
-          :else             (str "Robbie is downstairs in the " room-string))))
+    (cond (on-stairs? loc) (str "Robbie is on the " room-string)
+          (upstairs? loc)  (str "Robbie is upstairs in the " room-string)
+          :else            (str "Robbie is downstairs in the " room-string))))
 
 (defn move [direction]
   "Moves Robbie in `direction`, if possible; outputs descriptive string in both

@@ -11,12 +11,12 @@
   using `throw-die`."
   [(throw-die) (throw-die)])
 
-(defn snake-eyes-p [th]
+(defn snake-eyes? [th]
   "Return `true` if the throw `th` is (1 1)."
   (and (= (first th) 1)
        (= (second th) 1)))
 
-(defn boxcars-p [th]
+(defn boxcars? [th]
   "Return `true` if the throw `th` is (6 6)."
   (and (= (first th) 6)
        (= (second th) 6)))
@@ -25,12 +25,12 @@
   "Returns the sum of a throw `th`."
   (+ (first th) (second th)))
 
-(defn instant-win-p [th]
+(defn instant-win? [th]
   "Return `true` if the sum of throw `th` is 7 or 11."
   (or (= (throw-sum th) 7)
       (= (throw-sum th) 11)))
 
-(defn instant-loss-p [th]
+(defn instant-loss? [th]
   "Return `true` if the sum of throw `th` is 2, 3, or 12."
   (or (= (throw-sum th) 2)
       (= (throw-sum th) 3)
@@ -39,8 +39,8 @@
 (defn say-throw [th]
   "Return 'snake-eyes' if the throw `th` is (1 1) or 'boxcars' if it is (6 6),
   else return the sum of the throw."
-  (cond (snake-eyes-p th) "snake-eyes"
-        (boxcars-p th) "boxcars"
+  (cond (snake-eyes? th) "snake-eyes"
+        (boxcars? th) "boxcars"
         :else (throw-sum th)))
 
 (defn craps []
@@ -48,8 +48,8 @@
   outcome."
   (let [th (throw-dice)
         str1 (str "Throw " (first th) " and " (second th) " -- ")]
-    (cond (instant-win-p th) (str str1 (say-throw th) " -- you win!")
-          (instant-loss-p th) (str str1 (say-throw th) " -- you lose!")
+    (cond (instant-win? th) (str str1 (say-throw th) " -- you win!")
+          (instant-loss? th) (str str1 (say-throw th) " -- you lose!")
           :else (str str1 "your point is " (throw-sum th)))))
 
 (defn try-for-point [point]

@@ -13,11 +13,11 @@
 
 (= 27 (cube 3)) ; true
 
-(defn one-more-p [x y]
+(defn one-more? [x y]
   "Return true if x is one greater than y."
   (= (- x 1) y))
 
-(true? (one-more-p 10 9)) ; true
+(true? (one-more? 10 9)) ; true
 
 (defn pythag [x y]
   "Return square root of x^2 + y^2."
@@ -25,11 +25,11 @@
 
 (= 5.0 (pythag 3 4)) ; true
 
-(defn longer-than [xs ys]
+(defn longer-than? [xs ys]
   "Return true if xs is a longer list than ys."
   (> (count xs) (count ys)))
 
-(true? (longer-than [1 2 3] [1 2])) ; true
+(true? (longer-than? [1 2 3] [1 2])) ; true
 
 (defn add-length [xs]
   "Prepend length of list xs to xs."
@@ -43,12 +43,12 @@
 
 (= [[1] 2] (my-fun 1 2)) ; true
 
-(defn firstp [x ys]
+(defn first? [x ys]
   "Return true if x is the first element in list ys."
   (= x (first ys)))
 
-(true? (firstp :foo '(:foo :bar :baz))) ; true
-(false? (firstp :boing '(:foo :bar :baz))) ; true
+(true? (first? :foo '(:foo :bar :baz))) ; true
+(false? (first? :boing '(:foo :bar :baz))) ; true
 
 (defn mid-add1 [xs]
   "Add 1 to the middle element of three-element list xs."

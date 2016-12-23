@@ -171,7 +171,7 @@
 (def all-ranks "" ["2" "3" "4" "5" "6" "7" "8" "9" "10" "jack" "queen" "king"
                    "ace"])
 
-(defn higher-rank-p [card1 card2]
+(defn higher-rank? [card1 card2]
   "Return `true` if `card1` has a higher rank than `card2`."
   (> (.indexOf all-ranks (rank card1)) (.indexOf all-ranks (rank card2))))
 
@@ -180,7 +180,7 @@
 
 (defn high-card [hand]
   "Return the highest-ranked card in `hand`."
-  (reduce #(if (higher-rank-p %1 %2) %1 %2) hand))
+  (reduce #(if (higher-rank? %1 %2) %1 %2) hand))
 
 (high-card my-hand) ; "ace spades"
 
@@ -197,29 +197,29 @@
 (total-lengths [[1 2] [3] [4 5 6]]) ; 6
 
 ;; Exercise 7.19
-(defn all-odd-p [xs]
+(defn all-odd? [xs]
   "Return `true` if every item in `xs` is an odd number."
   (every? odd? xs))
 
-(all-odd-p [1 3 5]) ; true
-(all-odd-p [1 4 5]) ; false
+(all-odd? [1 3 5]) ; true
+(all-odd? [1 4 5]) ; false
 
 ;; Exercise 7.20
-(defn none-odd-p [xs]
+(defn none-odd? [xs]
   "Return `true` if every item in `xs` is not an odd number."
   (every? #(not (odd? %)) xs))
 
-(none-odd-p [1 4 5]) ; false
-(none-odd-p [2 4 6]) ; true
+(none-odd? [1 4 5]) ; false
+(none-odd? [2 4 6]) ; true
 
 ;; Exercise 7.21
-(defn not-all-odd-p [xs]
+(defn not-all-odd? [xs]
   "Return `true` if not every element of `xs` is odd."
-  (not (all-odd-p xs)))
+  (not (all-odd? xs)))
 
-(not-all-odd-p [2 4 6]) ; true
-(not-all-odd-p [2 5 6]) ; true
-(not-all-odd-p [1 5 7]) ; false
+(not-all-odd? [2 4 6]) ; true
+(not-all-odd? [2 5 6]) ; true
+(not-all-odd? [1 5 7]) ; false
 
 ;; Blocks
 
@@ -249,39 +249,29 @@
                   [:b6 :colour :purple]
                   [:b6 :size :large]])
 
-(def database2 "" {:b1 {:shape :brick, :colour :green, :size :small, :supported-by [:b2 :b3]},
-                   :b2 {:shape :brick, :colour :red, :size :small, :supports [:b1], :left-of [:b3]},
-                   :b3 {:shape :brick, :size :small, :supports [:b1], :right-of [:b2]},
-                   :b4 {:shape :pyramid, :colour :blue, :size :large, :supported-by [:b5]},
-                   :b5 {:shape :cube, :colour :green, :size :large, :supports [:b4]},
-                   :b6 {:shape :brick, :colour :purple, :size :large}})
-
-(defn match-element [a b]
+(defn match-element? [a b]
   "Return `true` if `a` and `b` are equal, or `b` is `:?`."
   (or (= a b)
       (= b :?)))
 
-(match-element :b1 :b1) ; true
-(match-element :b1 :?) ; true
-(match-element :b1 :b2) ; false
+(match-element? :b1 :b1) ; true
+(match-element? :b1 :?) ; true
+(match-element? :b1 :b2) ; false
 
-;; FIXME - Massive hack!
-(defn match-triple [assertion pattern]
+(defn match-triple? [assertion pattern]
   "Return `true` if the `assertion` matches the `pattern`."
-  (every? #(match-element (first %) (second %))
+  (every? #(match-element? (first %) (second %))
           (partition 2 (interleave assertion pattern))))
                                                            
-
-(match-triple [:b2 :colour :red] [:b2 :colour :?]) ; true
-(match-triple [:b2 :colour :red] [:b1 :colour :green]) ; false
+(match-triple? [:b2 :colour :red] [:b2 :colour :?]) ; true
+(match-triple? [:b2 :colour :red] [:b1 :colour :green]) ; false
 
 (defn fetch [pattern]
   "Return all assertions from `database` which match `pattern`."
-  (filter #(match-triple % pattern) database))
+  (filter #(match-triple? % pattern) database))
 
 (fetch [:b2 :colour :?]) ; ([:b2 :colour :red])
 (fetch [:? :supports :b1]) ; ([:b2 :supports :b1] [:b3 :supports :b1])
-
 (fetch [:b4 :shape :?]) ; ([:b4 :shape :pyramid])
 (fetch [:? :shape :brick])
 ; ([:b1 :shape :brick] [:b2 :shape :brick] [:b3 :shape :brick] [:b6 :shape :brick])
@@ -304,21 +294,21 @@
 
 (supporters :b1) ; (:b2 :b3)
 
-(defn cubep [block-name]
+(defn cube? [block-name]
   "Return `true` if `block-name` is a cube."
   (let [pattern (first (fetch [block-name :? :?]))]
     (and (= (second pattern) :shape)
          (= (last pattern) :cube))))
 
-(cubep :b5) ; true
-(cubep :b4) ; false
+(cube? :b5) ; true
+(cube? :b4) ; false
 
-(defn supported-by-cube-p [block-name]
+(defn supported-by-cube? [block-name]
   "Return `true` if `block-name` is supported by a cube."
-  (some true? (map cubep (supporters block-name))))
+  (some true? (map cube? (supporters block-name))))
 
-(supported-by-cube-p :b4) ; true
-(supported-by-cube-p :b1) ; nil
+(supported-by-cube? :b4) ; true
+(supported-by-cube? :b1) ; nil
 
 (defn desc1 [block-name]
   "Return all assertions regarding `block-name`."
